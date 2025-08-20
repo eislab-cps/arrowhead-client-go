@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/johankristianss/arrowhead/pkg/parsers"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/parsers"
 	log "github.com/sirupsen/logrus"
 )
 

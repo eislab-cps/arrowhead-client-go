@@ -1,4 +1,4 @@
-module github.com/johankristianss/arrowhead
+module github.com/eislab-cps/arrowhead-client-go
 
 go 1.21.0
 

@@ -4,8 +4,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/johankristianss/arrowhead/pkg/build"
-	"github.com/johankristianss/arrowhead/pkg/rpc"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/build"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/rpc"
 	log "github.com/sirupsen/logrus"
 )
 

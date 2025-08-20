@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/johankristianss/arrowhead/pkg/build"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/build"
 	"github.com/muesli/termenv"
 )
 

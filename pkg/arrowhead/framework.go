@@ -15,7 +15,7 @@ import (
 	"software.sslmate.com/src/go-pkcs12"
 
 	"github.com/gin-contrib/cors"
-	"github.com/johankristianss/arrowhead/pkg/rpc"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/rpc"
 	log "github.com/sirupsen/logrus"
 )
 

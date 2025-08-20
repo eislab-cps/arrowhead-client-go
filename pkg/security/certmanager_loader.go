@@ -5,8 +5,8 @@ import (
 	"io"
 	"os/exec"
 
-	"github.com/johankristianss/arrowhead/pkg/security/keytool"
-	"github.com/johankristianss/arrowhead/pkg/security/openssl"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/security/keytool"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/security/openssl"
 	log "github.com/sirupsen/logrus"
 )
 

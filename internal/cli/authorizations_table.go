@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	goprettytable "github.com/jedib0t/go-pretty/v6/table"
-	"github.com/johankristianss/arrowhead/internal/table"
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/internal/table"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 	"github.com/muesli/termenv"
 )
 

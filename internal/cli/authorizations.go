@@ -3,7 +3,7 @@ package cli
 import (
 	"errors"
 
-	"github.com/johankristianss/arrowhead/pkg/rpc"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/rpc"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

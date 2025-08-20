@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	arrowhead "github.com/johankristianss/arrowhead/pkg/arrowhead"
+	arrowhead "github.com/eislab-cps/arrowhead-client-go/pkg/arrowhead"
 )
 
 type Car struct {

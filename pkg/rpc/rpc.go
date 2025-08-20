@@ -9,7 +9,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 	log "github.com/sirupsen/logrus"
 
 	pkcs12 "software.sslmate.com/src/go-pkcs12"

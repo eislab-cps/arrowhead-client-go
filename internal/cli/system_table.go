@@ -3,8 +3,8 @@ package cli
 import (
 	"strconv"
 
-	"github.com/johankristianss/arrowhead/internal/table"
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/internal/table"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 )
 
 func printSystemTable(system core.System) {

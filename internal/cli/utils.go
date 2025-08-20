@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/johankristianss/arrowhead/pkg/build"
-	"github.com/johankristianss/arrowhead/pkg/core"
-	"github.com/johankristianss/arrowhead/pkg/security"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/build"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/security"
 	log "github.com/sirupsen/logrus"
 )
 

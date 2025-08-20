@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 )
 
 func BuildOrchestrationRequest(requesterSystemName, requesterAddress string, requesterPort int, serviceName string) core.OrchestrationRequest {

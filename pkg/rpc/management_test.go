@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/johankristianss/arrowhead/pkg/core"
-	"github.com/johankristianss/arrowhead/pkg/security/openssl"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/security/openssl"
 	"github.com/stretchr/testify/assert"
 )
 

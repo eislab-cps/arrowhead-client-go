@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/johankristianss/arrowhead/internal/cli"
-	"github.com/johankristianss/arrowhead/pkg/build"
+	"github.com/eislab-cps/arrowhead-client-go/internal/cli"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/build"
 )
 
 var (

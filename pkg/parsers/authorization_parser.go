@@ -3,7 +3,7 @@ package parsers
 import (
 	"encoding/json"
 
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 )
 
 func UnmarshalGetAuthorizationsResponseJSON(jsonStr string) ([]core.Authorization, error) {

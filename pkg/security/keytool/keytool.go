@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/johankristianss/arrowhead/pkg/utils"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/utils"
 	log "github.com/sirupsen/logrus"
 )
 

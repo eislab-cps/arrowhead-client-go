@@ -3,7 +3,7 @@ package parsers
 import (
 	"testing"
 
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 )
 
 func TestParsersUnmarshalOrchestrationsResponse(t *testing.T) {

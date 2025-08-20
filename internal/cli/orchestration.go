@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/johankristianss/arrowhead/pkg/rpc"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/rpc"
 	"github.com/spf13/cobra"
 )
 

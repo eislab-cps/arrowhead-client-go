@@ -3,7 +3,7 @@ package parsers
 import (
 	"encoding/json"
 
-	"github.com/johankristianss/arrowhead/pkg/core"
+	"github.com/eislab-cps/arrowhead-client-go/pkg/core"
 )
 
 func MarshalOrchestrationRequest(orchestrationRequest core.OrchestrationRequest) ([]byte, error) {
