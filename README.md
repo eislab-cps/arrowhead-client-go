@@ -419,3 +419,167 @@ go run consumer.go
 ```
 
 🎉 Congratulations! You have successfully implemented and deployed Arrowhead-based car provider and consumer services in Golang! 🚀
+
+---
+
+# Car Demo Architecture
+
+## System Architecture Diagram
+
+This diagram shows the overall architecture of the car demo system, including all Arrowhead core services and the interaction between the car provider and consumer.
+
+```mermaid
+flowchart TB
+    subgraph "Arrowhead Core Services"
+        SR[Service Registry<br/>Port: 8443]
+        ORCH[Orchestrator<br/>Port: 8441]
+        AUTH[Authorization<br/>Port: 8445]
+        GW[Gateway<br/>Port: 8453]
+        EH[Event Handler<br/>Port: 8455]
+        GK[Gatekeeper<br/>Port: 8449]
+    end
+
+    subgraph "Car Provider System"
+        CP[Car Provider<br/>localhost:8880]
+        REPO[(In-Memory<br/>Car Repository)]
+
+        subgraph "Provider Services"
+            CREATE[create-car<br/>POST /carfactory]
+            GET[get-car<br/>GET /carfactory]
+        end
+
+        CP --> CREATE
+        CP --> GET
+        CREATE --> REPO
+        GET --> REPO
+    end
+
+    subgraph "Car Consumer System"
+        CC[Car Consumer<br/>localhost:8881]
+    end
+
+    %% Registration flows
+    CP -.->|1. Register System| SR
+    CP -.->|2. Register Services| SR
+    CC -.->|3. Register System| SR
+
+    %% Authorization flow
+    AUTH -.->|4. Add Auth Rules| SR
+
+    %% Runtime orchestration flow
+    CC -->|5. Request Orchestration<br/>for create-car/get-car| ORCH
+    ORCH -->|6. Query Services| SR
+    ORCH -->|7. Check Authorization| AUTH
+    ORCH -->|8. Return Provider<br/>Endpoint + Token| CC
+
+    %% Service invocation
+    CC ==>|9. HTTP Request<br/>with Auth Token| CP
+
+    style CP fill:#90EE90
+    style CC fill:#87CEEB
+    style SR fill:#FFB6C1
+    style ORCH fill:#FFB6C1
+    style AUTH fill:#FFB6C1
+    style CREATE fill:#98FB98
+    style GET fill:#98FB98
+    style REPO fill:#DDA0DD
+```
+
+## Sequence Diagram
+
+This diagram illustrates the complete sequence of interactions from system registration through service invocation.
+
+```mermaid
+sequenceDiagram
+    autonumber
+
+    participant CLI as Arrowhead CLI
+    participant CP as Car Provider<br/>(localhost:8880)
+    participant CC as Car Consumer<br/>(localhost:8881)
+    participant SR as Service Registry<br/>(Port 8443)
+    participant AUTH as Authorization<br/>(Port 8445)
+    participant ORCH as Orchestrator<br/>(Port 8441)
+
+    rect rgb(240, 248, 255)
+        Note over CLI,SR: Setup Phase: System & Service Registration
+        CLI->>SR: Register carprovider system<br/>(localhost:8880)
+        SR-->>CLI: System registered<br/>Generate certificate (carprovider.p12)
+
+        CLI->>SR: Register carconsumer system<br/>(localhost:8881)
+        SR-->>CLI: System registered<br/>Generate certificate (carconsumer.p12)
+
+        CLI->>SR: Register service: create-car<br/>(POST /carfactory)
+        SR-->>CLI: Service registered
+
+        CLI->>SR: Register service: get-car<br/>(GET /carfactory)
+        SR-->>CLI: Service registered
+    end
+
+    rect rgb(255, 250, 240)
+        Note over CLI,AUTH: Setup Phase: Authorization Rules
+        CLI->>AUTH: Add authorization rule<br/>(carconsumer → carprovider: create-car)
+        AUTH-->>CLI: Authorization added (ID: 14)
+
+        CLI->>AUTH: Add authorization rule<br/>(carconsumer → carprovider: get-car)
+        AUTH-->>CLI: Authorization added (ID: 15)
+    end
+
+    rect rgb(240, 255, 240)
+        Note over CP,CC: Runtime Phase: Service Execution
+        CP->>CP: Start provider<br/>framework.ServeForever()
+        Note over CP: Listening on port 8880<br/>Handles: create-car, get-car
+
+        CC->>CC: Start consumer<br/>Build Car{Brand: Toyota, Color: Red}
+    end
+
+    rect rgb(255, 240, 245)
+        Note over CC,ORCH: Runtime Phase: Service Discovery (create-car)
+        CC->>ORCH: Request orchestration for "create-car"<br/>with carconsumer certificate
+        ORCH->>SR: Query service: create-car
+        SR-->>ORCH: Service details: carprovider<br/>(localhost:8880, /carfactory, POST)
+        ORCH->>AUTH: Check authorization<br/>(carconsumer → carprovider: create-car)
+        AUTH-->>ORCH: Authorized + Auth Token
+        ORCH-->>CC: Provider endpoint + Auth Token<br/>(localhost:8880/carfactory)
+    end
+
+    rect rgb(255, 255, 224)
+        Note over CC,CP: Runtime Phase: Service Invocation
+        CC->>CP: POST /carfactory<br/>Body: {Brand: "Toyota", Color: "Red"}<br/>Header: Auth Token
+        CP->>CP: CreateCarService.HandleRequest()<br/>Store car in repository
+        CP-->>CC: 200 OK
+
+        CC->>ORCH: Request orchestration for "get-car"<br/>with carconsumer certificate
+        ORCH->>SR: Query service: get-car
+        SR-->>ORCH: Service details
+        ORCH->>AUTH: Check authorization
+        AUTH-->>ORCH: Authorized + Auth Token
+        ORCH-->>CC: Provider endpoint + Auth Token
+
+        CC->>CP: GET /carfactory<br/>Header: Auth Token
+        CP->>CP: GetCarService.HandleRequest()<br/>Retrieve cars from repository
+        CP-->>CC: 200 OK<br/>[{Brand: "Toyota", Color: "Red"}]
+
+        CC->>CC: Print: Toyota Red
+    end
+```
+
+### Key Components Explained
+
+**Arrowhead Core Services:**
+- **Service Registry**: Stores information about all registered systems and services
+- **Orchestrator**: Helps consumers discover providers and returns service endpoints
+- **Authorization**: Manages access control rules between systems
+
+**Car Provider:**
+- Implements two services: `create-car` (POST) and `get-car` (GET)
+- Stores cars in an in-memory repository
+- Listens on port 8880 at `/carfactory` endpoint
+
+**Car Consumer:**
+- Requests orchestration to discover the provider
+- Creates a car using the `create-car` service
+- Retrieves cars using the `get-car` service
+
+**Security:**
+- All systems use mutual TLS (mTLS) with PKCS#12 certificates
+- Authorization tokens ensure only authorized systems can access services
